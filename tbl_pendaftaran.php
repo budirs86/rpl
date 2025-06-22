@@ -44,9 +44,14 @@ include_once('config/koneksi.php');
                 <div class="card">
                   <div class="card-body">
                     <p class="card-title mb-0">Pendaftar Terbaru</p>
+                    <?php
+                      if (isset($_GET['pesan']) && $_GET['pesan'] == 'sukses') {
+                          echo "<p>Data berhasil disimpan!</p>";
+                      }
+                      ?>
                     <div class="table-responsive">
                         <div>
-                      <a class="btn btn-sm btn-primary"  style="float: right;">Tambah Data</a><br>
+                      <a href="create_pendaftar.php" class="btn btn-sm btn-primary"  style="float: right;">Tambah Data</a><br>
                     </div>
                       <table class="table table-striped table-borderless">
                         <thead>
@@ -57,9 +62,7 @@ include_once('config/koneksi.php');
                             <th>Tanggal Lahir</th>
                             <th>Jenis Kelamin</th>
                             <th>Agama</th>
-                            <th>Alamat</th>
-                            <th>Nomor Telepon</th>
-                            <th>Aksi</th>
+                            <th width="100px">Aksi</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -81,16 +84,25 @@ include_once('config/koneksi.php');
                          <tr>
                             <td><?=$no++;?></td>
                             <td><?=$data['nama_peserta_didik'];?></td>
-                            <td class="font-weight-bold">$362</td>
-                            <td>21 Sep 2018</td>
-                            <td>21 Sep 2018</td>
-                            <td>21 Sep 2018</td>
-                            <td>21 Sep 2018</td>
-                            <td>21 Sep 2018</td>
-                            <td class="font-weight-medium">
-                              <div class="badge badge-warning">Edit</div>
-                              <div class="badge badge-danger">Del</div>
-                              <div class="badge badge-primary">View</div>
+                            <td><?=$data['tempat_lahir'];?></td>
+                            <td><?=$data['tanggal_lahir'];?></td>
+                            <td><?=$data['jenis_kelamin'];?></td>
+                            <td><?=$data['agama'];?></td>
+                            <td>
+                              <div class="badge badge-warning btn btn-sm"><a href="edit_pendaftar.php?id=<?=$data['id'];?>">Edit</a></div>
+                             
+                                 <form onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');" 
+                                    action="action/delete.php" method="POST" style="display: inline;">
+                                
+                                <!-- Kirim ID data yang ingin dihapus -->
+                                <input type="hidden" name="id" value="<?=$data['id'];?>"> 
+
+                                <button type="submit" class="badge badge-danger btn btn-sm">
+                                  Del
+                                </button>
+
+                              </form>
+                              
                             </td>
                           </tr>
                         <?php 

@@ -1,3 +1,7 @@
+<?php 
+include_once('config/koneksi.php');
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -130,29 +134,42 @@
                       <table class="table table-striped table-borderless">
                         <thead>
                           <tr>
+                            <th>No</th>
                             <th>Nama</th>
-                            <th>TT Lahir</th>
-                            <th>Tanggal Lahir</th>
-                            <th>Status</th>
+                            <th>Tempat Lahir</th>
+                            <th>Alamat</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>Search Engine Marketing</td>
-                            <td class="font-weight-bold">$362</td>
-                            <td>21 Sep 2018</td>
-                            <td class="font-weight-medium">
-                              <div class="badge badge-success">Completed</div>
-                            </td>
+                     <?php 
+
+                            //mengambil data dari tabel siswa
+                            $query = mysqli_query($db, "SELECT * FROM tbl_pendaftaran order by id desc limit 5");
+                            $data = mysqli_fetch_array($query);
+
+                            // fungsi cek kolom data tabel
+                            if(mysqli_num_rows($query) >0) {
+                                $no = 1;
+
+                                // loop semua data tabel user
+                                do{
+
+                        ?>
+
+                         <tr>
+                            <td><?=$no++;?></td>
+                            <td><?=$data['nama_peserta_didik'];?></td>
+                            <td><?=$data['tempat_lahir'];?></td>
+                            <td><?=$data['alamat_tinggal'];?></td>
                           </tr>
-                          <tr>
-                            <td>Search Engine Optimization</td>
-                            <td class="font-weight-bold">$116</td>
-                            <td>13 Jun 2018</td>
-                            <td class="font-weight-medium">
-                              <div class="badge badge-success">Completed</div>
-                            </td>
-                          </tr>
+                        <?php 
+                                }while($data = mysqli_fetch_assoc($query));
+                            }else{
+
+                                // jika false
+                                echo "<tr><td colspan='7'><center>Belum ada data!</center></td></tr>";
+                            }
+                        ?>
                           
                         </tbody>
                       </table>
